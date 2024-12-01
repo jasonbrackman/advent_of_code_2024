@@ -17,7 +17,6 @@ def part01():
     with open(r'./data/day_01_2023.txt', encoding='utf-8') as f:
         for line in f:
             values = ''.join(re.findall(r'\d+', line))
-            print(values)
             x += int(''.join([values[0], values[-1]]))
     assert x == 54708
 
