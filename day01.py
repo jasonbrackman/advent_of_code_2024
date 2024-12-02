@@ -4,8 +4,7 @@ def parse() -> tuple[list[int], list[int]]:
     r = ints(r'./data/day01.txt')
     l1 = []
     l2 = []
-    for items in r:
-        a, b = items
+    for (a, b) in r:
         l1.append(a)
         l2.append(b)
 
