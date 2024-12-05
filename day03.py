@@ -34,6 +34,20 @@ def part02(line: str) -> int:
     return t
 
 
+def part02_alt(line: str) -> None:
+    """This was a popular implementation on Reddit."""
+    t = 0
+    enable = True
+    pattern = re.compile(r"do\(\)|don't\(\)|mul\(\d{1,3},\d{1,3}\)")
+    for item in pattern.findall(line):
+        if enable and item.startswith("mul"):
+            t += _mult(item)
+        else:
+            enable = True if item == "do()" else False
+
+    assert t == 82733683
+
+
 def run() -> None:
     data = aoc.lines(PATH)
     line = "".join(data)
