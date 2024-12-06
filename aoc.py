@@ -6,6 +6,10 @@ NUM_PATTERN = re.compile(r"\d+")
 WRD_PATTERN = re.compile(r"[a-zA-Z]+")
 
 
+class AOCException(Exception):
+    pass
+
+
 def lines(path: Union[Path, str]) -> Iterator[str]:
     with open(path, encoding="utf8") as handle:
         for line in handle:
