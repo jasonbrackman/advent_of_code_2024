@@ -5,7 +5,7 @@ import aoc
 
 Antennas = defaultdict[str, set[tuple[int, int]]]
 Grid = list[list[str]]
-
+Vec2 = tuple[int, int]
 
 def parse(path: str) -> Grid:
     lines = aoc.lines(path)
@@ -60,15 +60,15 @@ def _locs(grid: Grid) -> Antennas:
     return locs
 
 
-def _add(p1, p2):
+def _add(p1: Vec2, p2: Vec2) -> Vec2:
     return p1[0] + p2[0], p1[1] + p2[1]
 
 
-def _sub(p1, p2):
+def _sub(p1: Vec2, p2: Vec2) -> Vec2:
     return p1[0] - p2[0], p1[1] - p2[1]
 
 
-def _in_grid(p, h, w) -> bool:
+def _in_grid(p: Vec2, h: int, w: int) -> bool:
     return 0 <= p[0] < h and 0 <= p[1] < w
 
 
