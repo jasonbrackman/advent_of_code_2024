@@ -1,5 +1,6 @@
-from aoc import AOCException, lines
-import re
+import aoc
+from aoc import AOCException, Grid, Vec2
+
 
 dirs = {
     "^": (-1, 0),
@@ -14,14 +15,6 @@ turn = {
     (1, 0): (0, -1),
     (0, -1): (-1, 0),
 }
-
-Grid = list[list[str]]
-Vec2 = tuple[int, int]
-
-
-def parse(path: str) -> Grid:
-    data = lines(path)
-    return [list(line) for line in data]
 
 
 def part01(data: Grid) -> set[Vec2]:
@@ -89,7 +82,7 @@ def is_looped(data: Grid, dir_: Vec2, start_pos: Vec2) -> bool:
         if 0 <= b < len(data) and 0 <= a < len(data[0]):
             if data[b][a] == ".":
                 visited.add(((b, a), dir_))
-                q._add((b, a))
+                q.add((b, a))
             else:
                 dir_ = turn[dir_]
                 q.add((y, x))
@@ -98,11 +91,11 @@ def is_looped(data: Grid, dir_: Vec2, start_pos: Vec2) -> bool:
 
 def run() -> None:
     path = r"./data/day06.txt"
-    data = parse(path)
+    data = aoc.grid(path)
     visited = part01(data)
     assert len(visited) == 5131
 
-    data = parse(path)
+    data = aoc.grid(path)
     assert part02(data, visited) == 1784
 
 

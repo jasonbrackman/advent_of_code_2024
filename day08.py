@@ -2,9 +2,8 @@ from collections import defaultdict
 from itertools import combinations
 
 import aoc
-from aoc import Grid
+from aoc import Grid, Vec2
 
-Vec2 = tuple[int, int]
 Antennas = defaultdict[str, set[Vec2]]
 
 

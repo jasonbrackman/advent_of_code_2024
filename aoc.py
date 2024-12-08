@@ -1,3 +1,4 @@
+import math
 import sys
 from pathlib import Path
 from typing import Iterator, Union, TypeVar
@@ -9,8 +10,9 @@ NUM_PATTERN = re.compile(r"\d+")
 WRD_PATTERN = re.compile(r"[a-zA-Z]+")
 
 T = TypeVar("T")
-
 Grid = list[list[T]]
+Vec2 = tuple[int, int]
+Vec3 = tuple[int, int, int]
 
 
 class AOCException(Exception):
@@ -50,3 +52,11 @@ def re_wrds(s: str) -> list[str]:
     """Search for clusters of uninterrupted text. Will ignore anything
     other than a-zA-Z."""
     return re.findall(WRD_PATTERN, s)
+
+
+def concat_numbers(a: int, b: int) -> int:
+    """Multiply the first number to shift left by the length of the second number.
+    Then add them together and return.  Should outperform string conversion and add
+    on larger numbers."""
+    count = math.floor(math.log10(b)) + 1
+    return a * 10**count + b

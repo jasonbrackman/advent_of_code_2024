@@ -1,3 +1,4 @@
+import math
 import operator
 from collections import deque
 from itertools import product
@@ -6,7 +7,7 @@ from typing import Callable
 import aoc
 
 
-def parse(path: str):
+def parse(path: str) -> aoc.Grid:
     lines = aoc.lines(path)
     return [aoc.re_ints(line) for line in lines]
 
@@ -42,23 +43,21 @@ def is_valid(val: int, rest: list[int], operators: list[Callable]) -> bool:
     return False
 
 
-def part01(data):
+def part01(data: aoc.Grid) -> int:
     operators = [operator.mul, operator.add]
-    t = sum(d[0] for d in data if is_valid(d[0], d[1:], operators))
-    assert t == 882304362421
+    return sum(d[0] for d in data if is_valid(d[0], d[1:], operators))
 
 
-def part02(data):
+def part02(data: aoc.Grid) -> int:
     operators = [operator.mul, operator.add, glue]
-    t = sum(d[0] for d in data if is_valid(d[0], d[1:], operators))
-    assert t == 145149066755184
+    return sum(d[0] for d in data if is_valid(d[0], d[1:], operators))
 
 
 def run():
     path = r"./data/day07.txt"
     data = parse(path)
-    part01(data)
-    part02(data)
+    assert part01(data) == 882304362421
+    assert part02(data) == 145149066755184
 
 
 if __name__ == "__main__":
