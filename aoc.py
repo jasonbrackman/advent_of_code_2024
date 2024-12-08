@@ -1,6 +1,9 @@
+import sys
 from pathlib import Path
 from typing import Iterator, Union
 import re
+
+sys.setrecursionlimit(1_000_000)
 
 NUM_PATTERN = re.compile(r"\d+")
 WRD_PATTERN = re.compile(r"[a-zA-Z]+")
