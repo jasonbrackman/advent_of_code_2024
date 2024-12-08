@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from typing import Iterator, Union
+from typing import Iterator, Union, TypeVar
 import re
 
 sys.setrecursionlimit(1_000_000)
@@ -8,9 +8,17 @@ sys.setrecursionlimit(1_000_000)
 NUM_PATTERN = re.compile(r"\d+")
 WRD_PATTERN = re.compile(r"[a-zA-Z]+")
 
+T = TypeVar("T")
+
+Grid = list[list[T]]
+
 
 class AOCException(Exception):
     pass
+
+
+def grid(path: Union[Path, str]) -> Grid[T]:
+    return [list(line) for line in lines(path)]
 
 
 def lines(path: Union[Path, str]) -> Iterator[str]:

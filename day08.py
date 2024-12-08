@@ -2,14 +2,10 @@ from collections import defaultdict
 from itertools import combinations
 
 import aoc
+from aoc import Grid
 
-Antennas = defaultdict[str, set[tuple[int, int]]]
-Grid = list[list[str]]
 Vec2 = tuple[int, int]
-
-def parse(path: str) -> Grid:
-    lines = aoc.lines(path)
-    return [list(line) for line in lines]
+Antennas = defaultdict[str, set[Vec2]]
 
 
 def part01(grid: Grid) -> int:
@@ -74,7 +70,7 @@ def _in_grid(p: Vec2, h: int, w: int) -> bool:
 
 def run() -> None:
     path = r"./data/day08.txt"
-    grid = parse(path)
+    grid = aoc.grid(path)
     assert part01(grid) == 398
     assert part02(grid) == 1333
 

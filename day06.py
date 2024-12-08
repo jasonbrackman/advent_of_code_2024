@@ -89,7 +89,7 @@ def is_looped(data: Grid, dir_: Vec2, start_pos: Vec2) -> bool:
         if 0 <= b < len(data) and 0 <= a < len(data[0]):
             if data[b][a] == ".":
                 visited.add(((b, a), dir_))
-                q.add((b, a))
+                q._add((b, a))
             else:
                 dir_ = turn[dir_]
                 q.add((y, x))
