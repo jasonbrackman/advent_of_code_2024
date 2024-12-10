@@ -1,3 +1,5 @@
+from typing import Iterator
+
 import aoc
 from collections import deque
 
@@ -37,24 +39,6 @@ def part01(grid: Grid, positions: list[Vec2]) -> int:
     return t
 
 
-def get_next(grid: Grid, val: int, p1: Vec2):
-    for p2 in dirs:
-        y, x = p1[0] + p2[0], p1[1] + p2[1]
-        if 0 <= y < len(grid) and 0 <= x < len(grid[0]):
-            new_val = grid[y][x]
-            if new_val != "." and new_val == val + 1:
-                yield y, x
-
-
-def get_start_pos(grid: Grid):
-    h = len(grid)
-    w = len(grid)
-    for j in range(h):
-        for i in range(w):
-            if grid[j][i] == 0:
-                yield j, i
-
-
 def part02(grid: Grid, positions: list[Vec2]) -> int:
     t = 0
     for pos in positions:
@@ -70,6 +54,22 @@ def part02(grid: Grid, positions: list[Vec2]) -> int:
         t += len(found)
 
     return t
+
+
+def get_next(grid: Grid, val: int, p1: Vec2) -> Iterator[Vec2]:
+    for p2 in dirs:
+        y, x = p1[0] + p2[0], p1[1] + p2[1]
+        if 0 <= y < len(grid) and 0 <= x < len(grid[0]):
+            new_val = grid[y][x]
+            if new_val != "." and new_val == val + 1:
+                yield y, x
+
+
+def get_start_pos(grid: Grid) -> Iterator[Vec2]:
+    for j in range(len(grid)):
+        for i in range(len(grid[0])):
+            if grid[j][i] == 0:
+                yield j, i
 
 
 def run() -> None:
