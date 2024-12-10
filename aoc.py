@@ -2,25 +2,22 @@ import math
 import sys
 import time
 from pathlib import Path
-from typing import Iterator, Union, TypeVar, Callable
+from typing import Iterator, Union, Callable
 import re
+
+from aoctypes import Grid
 
 sys.setrecursionlimit(1_000_000)
 
 NUM_PATTERN = re.compile(r"\d+")
 WRD_PATTERN = re.compile(r"[a-zA-Z]+")
 
-T = TypeVar("T")
-Grid = list[list[T]]
-Vec2 = tuple[int, int]
-Vec3 = tuple[int, int, int]
-
 
 class AOCException(Exception):
     pass
 
 
-def grid(path: Union[Path, str]) -> Grid[T]:
+def grid(path: Union[Path, str]) -> Grid:
     return [list(line) for line in lines(path)]
 
 

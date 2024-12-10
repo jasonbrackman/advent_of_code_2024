@@ -1,9 +1,8 @@
 from typing import Iterator
-
-import aoc
 from collections import deque
 
-from aoc import Grid, Vec2
+import aoc
+from aoctypes import Grid, Vec2
 
 dirs = (
     (-1, 0),

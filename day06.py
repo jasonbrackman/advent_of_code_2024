@@ -1,5 +1,6 @@
 import aoc
-from aoc import AOCException, Grid, Vec2
+from aoc import AOCException
+from aoctypes import Grid, Vec2
 
 
 dirs = {

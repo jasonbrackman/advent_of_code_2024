@@ -2,7 +2,7 @@ from collections import defaultdict
 from itertools import combinations
 
 import aoc
-from aoc import Grid, Vec2
+from aoctypes import Grid, Vec2
 
 Antennas = defaultdict[str, set[Vec2]]
 

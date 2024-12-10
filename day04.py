@@ -1,5 +1,4 @@
 import aoc
-import re
 
 PATH = r"data/day04.txt"
 SEARCH = ("XMAS", "SAMX")

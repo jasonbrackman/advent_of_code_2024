@@ -1,13 +1,13 @@
-import math
+
 import operator
 from collections import deque
 from itertools import product
 from typing import Callable
 
 import aoc
+from aoctypes import Grid
 
-
-def parse(path: str) -> aoc.Grid:
+def parse(path: str) -> Grid:
     lines = aoc.lines(path)
     return [aoc.re_ints(line) for line in lines]
 
@@ -43,12 +43,12 @@ def is_valid(val: int, rest: list[int], operators: list[Callable]) -> bool:
     return False
 
 
-def part01(data: aoc.Grid) -> int:
+def part01(data: Grid) -> int:
     operators = [operator.mul, operator.add]
     return sum(d[0] for d in data if is_valid(d[0], d[1:], operators))
 
 
-def part02(data: aoc.Grid) -> int:
+def part02(data: Grid) -> int:
     operators = [operator.mul, operator.add, glue]
     return sum(d[0] for d in data if is_valid(d[0], d[1:], operators))
 
