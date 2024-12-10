@@ -1,4 +1,3 @@
-
 import operator
 from collections import deque
 from itertools import product
@@ -6,6 +5,7 @@ from typing import Callable
 
 import aoc
 from aoctypes import Grid
+
 
 def parse(path: str) -> Grid:
     lines = aoc.lines(path)
