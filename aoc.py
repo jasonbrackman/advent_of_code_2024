@@ -1,7 +1,8 @@
 import math
 import sys
+import time
 from pathlib import Path
-from typing import Iterator, Union, TypeVar
+from typing import Iterator, Union, TypeVar, Callable
 import re
 
 sys.setrecursionlimit(1_000_000)
@@ -60,3 +61,16 @@ def concat_numbers(a: int, b: int) -> int:
     on larger numbers."""
     count = math.floor(math.log10(b)) + 1
     return a * 10**count + b
+
+
+def time_it(command: Callable):
+    t1 = time.perf_counter()
+    command()
+    print(
+        f"[{str(command.__module__)}.{command.__name__}]: Completed in {(time.perf_counter() - t1)*1_000:0.1f} ms"
+    )
+
+
+def time_it_all(args: list[Callable]):
+    for arg in args:
+        time_it(arg)
