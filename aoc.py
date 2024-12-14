@@ -9,7 +9,7 @@ from aoctypes import Grid
 
 sys.setrecursionlimit(1_000_000)
 
-NUM_PATTERN = re.compile(r"\d+")
+NUM_PATTERN = re.compile(r"-?\d+")
 WRD_PATTERN = re.compile(r"[a-zA-Z]+")
 
 
@@ -42,6 +42,7 @@ def re_ints(s: str) -> list[int]:
     001 = [int(1)]
     2asdf2 = [int(2), int(2)]
     asdf45asdf = [int(45)]
+    -1, 45, -5 = [int(-1), int(45), int(-5)]
     """
     return [int(ii) for ii in list(re_nums(s))]
 
