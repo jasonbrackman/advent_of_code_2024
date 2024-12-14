@@ -9,7 +9,10 @@ import day07
 import day08
 import day09
 import day10
-
+import day11
+import day12
+import day13
+import day14
 
 if __name__ == "__main__":
     aoc.time_it_all(
@@ -24,5 +27,9 @@ if __name__ == "__main__":
             day08.run,
             day09.run,
             day10.run,
+            day11.run,
+            day12.run,
+            day13.run,
+            day14.run,
         ]
     )
