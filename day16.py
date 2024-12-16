@@ -5,7 +5,7 @@ import aoc
 from aoctypes import Vec2, Grid
 
 
-def parse(path):
+def parse(path: str) -> Grid:
     grid = aoc.grid(path)
 
     return grid
@@ -19,13 +19,13 @@ def get_start(grid: Grid) -> Vec2:
     raise ValueError
 
 
-def add(p1, p2):
+def add(p1: Vec2, p2: Vec2) -> Vec2:
     y, x = p1
     yy, xx = p2
     return y + yy, x + xx
 
 
-def neighbours(p1, grid: Grid):
+def neighbours(p1: Vec2) -> list[tuple[Vec2, Vec2]]:
     dirs = [(-1, 0), (1, 0), (0, 1), (0, -1)]
     r = []
     for d in dirs:
@@ -36,54 +36,71 @@ def neighbours(p1, grid: Grid):
 
 
 class Node:
-    def __init__(self, pos: Vec2, dir: Vec2, val: int, parent: Optional["Node"] = None):
-        self.pos = pos
-        self.dir = dir
-        self.val = val
+    def __init__(self, p: Vec2, d: Vec2, v: int, parent: Optional["Node"] = None):
+        self.pos = p
+        self.dir = d
+        self.val = v
         self.parent = parent
 
     def __lt__(self, other: "Node"):
         return self.val < other.val
 
 
-def past(node: Node):
+def parts(grid: Grid) -> list[Node]:
 
-    while node.parent:
-        yield node.pos
-        node = node.parent
+    # return results
+    t: list[Node] = []
 
+    # Create priority queue
+    pq: list[Node] = []
+    heapq.heappush(pq, Node(get_start(grid), (0, 1), 0, parent=None))
 
-def part01(grid: Grid):
-    t = []
-    n = get_start(grid)
-    pq = []
-    heapq.heappush(pq, Node(n, (0, 1), 0, parent=None))
-    visited = set()
+    # shortcut if we can
+    visited: dict[tuple[Vec2, Vec2], int] = {}
+
     while pq:
         node = heapq.heappop(pq)
 
-        y, x = node.pos
+        if grid[node.pos[0]][node.pos[1]] == "E":
+            t.append(node)
+            continue
 
-        if grid[y][x] == "E":
-            return node
+        for new, newd in neighbours(node.pos):
+            move_cost = (
+                1 if node.dir == newd else 1001
+            )  # 1001 to cover cost of `turn` and `move`
 
-        for new, newd in neighbours((y, x), grid):
-            move_cost = 1 if node.dir == newd else 1001
-            if (new, newd) not in visited:
-                visited.add((new, newd))
-                if grid[new[0]][new[1]] == "#":
-                    continue
+            if (new, newd) in visited and visited[(new, newd)] < node.val + move_cost:
+                continue
+            visited[(new, newd)] = node.val + move_cost
 
-                heapq.heappush(pq, Node(new, newd, node.val + move_cost, parent=node))
+            if grid[new[0]][new[1]] == "#":
+                # no walls
+                continue
+
+            heapq.heappush(pq, Node(new, newd, node.val + move_cost, parent=node))
 
     return t
 
 
-def run():
-    path = r"./data/day16.txt"  # not 137424
+def path_positions(node: Node) -> set[Vec2]:
+    s = set()
+    while node.parent:
+        s.add(node.pos)
+        node = node.parent
+    s.add(node.pos)
+    return s
+
+
+def run() -> None:
+    path = r"./data/day16.txt"
     grid = parse(path)
-    p1 = part01(grid)
-    assert p1.val == 111488
+    vals = parts(grid)
+    assert vals[0].val == 111480
+    p2 = set()
+    for val in vals:
+        p2 |= path_positions(val)
+    assert len(p2) == 529
 
 
 if __name__ == "__main__":

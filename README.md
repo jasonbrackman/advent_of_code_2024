@@ -23,3 +23,4 @@ MacOS 15.1.
 - [day13.run]: Completed in 1767.2 ms (Part01 Only)
 - [day14.run]: Completed in 241.9 ms
 - [day15.run]: Completed in 532.1 ms
+- [day16.run]: Completed in 736.5 ms
