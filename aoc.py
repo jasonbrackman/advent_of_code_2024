@@ -5,9 +5,11 @@ from pathlib import Path
 from typing import Iterator, Union, Callable
 import re
 
-from aoctypes import Grid
+from aoctypes import Grid, Vec2
 
 sys.setrecursionlimit(1_000_000)
+
+DIRS = ((-1, 0), (1, 0), (0, -1), (0, 1))
 
 NUM_PATTERN = re.compile(r"-?\d+")
 WRD_PATTERN = re.compile(r"[a-zA-Z]+")
@@ -59,6 +61,10 @@ def concat_numbers(a: int, b: int) -> int:
     on larger numbers."""
     count = math.floor(math.log10(b)) + 1
     return a * 10**count + b
+
+
+def add(p1: Vec2, p2: Vec2) -> Vec2:
+    return p1[0] + p2[0], p1[1] + p2[1]
 
 
 def time_it(command: Callable):

@@ -15,6 +15,8 @@ import day13
 import day14
 import day15
 import day16
+import day17
+import day18
 
 if __name__ == "__main__":
     aoc.time_it_all(
@@ -35,5 +37,7 @@ if __name__ == "__main__":
             day14.run,
             day15.run,
             day16.run,
+            day17.run,
+            day18.run,
         ]
     )
