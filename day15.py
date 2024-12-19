@@ -3,10 +3,9 @@ from typing import Optional
 import aoc
 from dataclasses import dataclass, field
 
-from aoctypes import Vec2
+from aoctypes import Vec2, Grid
 
 Block = list[Vec2]
-Grid = list[list[str]]
 DIRS = {"^": (-1, 0), "v": (1, 0), "<": (0, -1), ">": (0, 1)}
 
 
@@ -18,14 +17,14 @@ class Space:
     # need original positions to clear first before moving, this allows the next
     # set to populate the cleared area and so on .. till we are at the start of the
     # chain.
-    ori: Optional[Block] = field(default=list)
+    ori: Optional[Block] = field(default_factory=list)
 
     def move(self, d: Vec2) -> None:
         self.ori = list(self.pos)
         self.pos = [(y + d[0], x + d[1]) for y, x in self.pos]
 
     @staticmethod
-    def full_block(p1, val):
+    def full_block(p1: Vec2, val: str) -> list[Vec2]:
         """Some additional logic needed here to find out if the position is a
         wide block containing two positions."""
         other = []
@@ -61,7 +60,7 @@ class Space:
 
 @dataclass
 class GridBase:
-    _grid: Grid
+    _grid: Grid[str]
     _inst: list[str]
 
     @classmethod
@@ -94,11 +93,12 @@ class GridBase:
         return p1[0] + p2[0], p1[1] + p2[1]
 
     def _total(self, key) -> int:
+        MULTIPLIER = 100
         t = 0
         for j in range(len(self._grid)):
             for i in range(len(self._grid[0])):
                 if self.get_value((j, i)) == key:
-                    t += 100 * j + i
+                    t += MULTIPLIER * j + i
         return t
 
 
@@ -123,10 +123,8 @@ class M(GridBase):
         return M(grid, inst)
 
     def sim(self):
-        # DIRS = {"^": (-1, 0), "v": (1, 0), "<": (0, -1), ">": (0, 1)}
         start = self.get_start_pos()
         for inst in self._inst:
-            # print("Moving:", inst)
             d = DIRS[inst]
             new_pos = self.add(start, d)
 
@@ -154,7 +152,6 @@ class M(GridBase):
                         break
 
                     elif v == "O":
-                        # print("yes!")
                         stack.append(t)
                         new_pos = t
 
@@ -191,15 +188,11 @@ class W(GridBase):
                 get_grid = False
             if get_grid:
                 n = []
-                for a, b in zip(line, line):
-                    if a == "#":
-                        n += [a, b]
-                    elif a == ".":
-                        n += [a, b]
-                    elif a == "O":
+                for a in line:
+                    if a == "O":
                         n += ["[", "]"]
-                    elif a == "@":
-                        n += [a, "."]
+                    else:
+                        n += [a, a]
                 grid.append(list(n))
             else:
                 inst.extend(list(line))
@@ -232,16 +225,6 @@ class W(GridBase):
                     for (y, x), v in zip(w.pos, w.val):
                         self._grid[y][x] = v
 
-    def get_full_space(self, p1: Vec2, val: str) -> Vec2:
-        other = []
-        if val == "[":
-            other.append(p1)
-            other.append(self.add(p1, DIRS[">"]))
-        else:
-            other.append(self.add(p1, DIRS["<"]))
-            other.append(p1)
-        return other
-
 
 def part01(path: str) -> int:
     m = M.load(path)
@@ -258,8 +241,6 @@ def part02(path) -> int:
 def run() -> None:
     path = r"./data/day15.txt"
     assert part01(path) == 1505963
-
-    path = r"./data/day15.txt"
     assert part02(path) == 1543141
 
 
