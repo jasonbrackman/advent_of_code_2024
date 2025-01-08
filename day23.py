@@ -12,20 +12,17 @@ def parse(path: str) -> defaultdict[str, set[str]]:
     return results
 
 
-def in_set(a, b, items, data):
-    r = [item for item in items if a in data[item] and b in data[item]]
-    return r
-
-
 def part01(data) -> int:
     collection = set()
-    for k, v in data.items():
-        if not k.startswith("t"):
+    for a, items in data.items():
+        if not a.startswith("t"):
             continue
-        for item in v:
-            connections = in_set(k, item, v, data)
+        for b in items:
+            connections = [
+                item for item in items if a in data[item] and b in data[item]
+            ]
             for connection in connections:
-                collection.add(frozenset((k, item, connection)))
+                collection.add(frozenset((a, b, connection)))
     return len(collection)
 
 
